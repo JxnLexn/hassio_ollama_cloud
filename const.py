@@ -1,8 +1,8 @@
 """Constants for the Ollama integration."""
 
-DOMAIN = "ollama"
+DOMAIN = "ollama_cloud"
 
-DEFAULT_NAME = "Ollama"
+DEFAULT_NAME = "Ollama Cloud"
 
 CONF_MODEL = "model"
 CONF_PROMPT = "prompt"
@@ -24,6 +24,8 @@ CONF_MAX_HISTORY = "max_history"
 DEFAULT_MAX_HISTORY = 20
 
 MAX_HISTORY_SECONDS = 60 * 60  # 1 hour
+
+CONF_API_KEY = "api_key"
 
 MODEL_NAMES = [  # https://ollama.com/library
     "alfred",
@@ -160,8 +162,8 @@ MODEL_NAMES = [  # https://ollama.com/library
 ]
 DEFAULT_MODEL = "qwen3:4b"
 
-DEFAULT_CONVERSATION_NAME = "Ollama Conversation"
-DEFAULT_AI_TASK_NAME = "Ollama AI Task"
+DEFAULT_CONVERSATION_NAME = "Ollama Cloud Conversation"
+DEFAULT_AI_TASK_NAME = "Ollama Cloud AI Task"
 
 RECOMMENDED_CONVERSATION_OPTIONS = {
     CONF_MAX_HISTORY: DEFAULT_MAX_HISTORY,

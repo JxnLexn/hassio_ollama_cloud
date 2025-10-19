@@ -1,8 +1,8 @@
 {
-  "domain": "ollama",
-  "name": "Ollama",
+  "domain": "ollama_cloud",
+  "name": "Ollama Cloud",
   "after_dependencies": ["assist_pipeline", "intent"],
-  "codeowners": ["@synesthesiam"],
+  "codeowners": ["@synesthesiam", "@jxnlexn"],
   "config_flow": true,
   "dependencies": ["conversation"],
   "documentation": "https://www.home-assistant.io/integrations/ollama",

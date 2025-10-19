@@ -58,6 +58,7 @@ from .const import (
     MAX_NUM_CTX,
     MIN_NUM_CTX,
     MODEL_NAMES,
+    CONF_API_KEY,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -68,8 +69,13 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Required(CONF_URL): TextSelector(
             TextSelectorConfig(type=TextSelectorType.URL)
         ),
+        # 👇 NEU: Optionaler API-Key (Password-Eingabefeld)
+        vol.Optional(CONF_API_KEY): TextSelector(
+            TextSelectorConfig(type=TextSelectorType.PASSWORD)
+        ),
     }
 )
+
 
 
 class OllamaConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -109,7 +115,9 @@ class OllamaConfigFlow(ConfigFlow, domain=DOMAIN):
             )
 
         try:
-            client = ollama.AsyncClient(host=url, verify=get_default_context())
+            api_key = user_input.get(CONF_API_KEY)
+            headers = {"Authorization": f"Bearer {api_key}"} if api_key else None
+            client = ollama.AsyncClient(host=url, headers=headers, verify=get_default_context())
             async with asyncio.timeout(DEFAULT_TIMEOUT):
                 await client.list()
         except (TimeoutError, httpx.ConnectError):
@@ -127,10 +135,15 @@ class OllamaConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors=errors,
             )
 
+        data = {CONF_URL: url}
+        if api_key:
+            data[CONF_API_KEY] = api_key
+
         return self.async_create_entry(
             title=url,
-            data={CONF_URL: url},
+            data=data,
         )
+
 
     @classmethod
     @callback
